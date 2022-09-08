@@ -15,7 +15,8 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: []
+      todos: [],
+      todoInput: ''
     }
   }
 
@@ -28,14 +29,33 @@ export default class App extends React.Component {
 
   inputChange = evt => {
     const { value } = evt.target;
-    this.setState({...this.state, todoInput: value })
+    this.setState({...this.props.todos, todoInput: value })
+  }
+
+  postNewTodo = () => {
+    axios.post(URL, { name: this.state.todoInput })
+      .then(res => {
+       this.fetchTodos();
+       this.setState({...this.setState, todoInput: ''})
+      })
+      .catch(err => {
+        console.error('post request not working')
+      })
+  }
+
+  submitTodo = (e) => {
+    e.preventDefault();
+    this.postNewTodo();
   }
 
   render() {
     return (
       <div>
         <TodoList todos={this.state.todos}/>
-        <Form inputChange={this.inputChange}/>
+        <form onSubmit={this.submitTodo}>
+          <input onChange={this.inputChange} value={this.state.todoInput} type='text' placeholder='Type todo'/>
+          <button>Submit</button>
+        </form>
         <button>Hide Completed</button>
       </div>
     )
