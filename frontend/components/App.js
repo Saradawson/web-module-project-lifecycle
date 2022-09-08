@@ -16,7 +16,8 @@ export default class App extends React.Component {
     super();
     this.state = {
       todos: [],
-      todoInput: ''
+      todoInput: '',
+      displayCompleted: true
     }
   }
 
@@ -61,6 +62,14 @@ export default class App extends React.Component {
       })
   }
 
+  hideCompleted = () => {
+    this.setState({ ...this.state, todos: this.state.todos.filter(todo => {
+      if(!todo.completed) return todo
+    })}) 
+  }
+
+  
+
   render() {
     return (
       <div>
@@ -69,7 +78,7 @@ export default class App extends React.Component {
           <input onChange={this.inputChange} value={this.state.todoInput} type='text' placeholder='Type todo'/>
           <button>Submit</button>
         </form>
-        <button>Hide Completed</button>
+        <button onClick={this.hideCompleted}>{this.state.displayCompleted ? 'hide' : 'show'}</button>
       </div>
     )
   }
