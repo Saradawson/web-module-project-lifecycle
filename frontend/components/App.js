@@ -48,10 +48,23 @@ export default class App extends React.Component {
     this.postNewTodo();
   }
 
+  toggleCompleted = (id) => () => {
+    axios.patch(`${URL}/${id}`)
+      .then(res => {
+        this.setState({ ...this.state, todos: this.state.todos.map(todo => {
+          if(todo.id !== id) return todo
+          return res.data.data 
+        })})
+      })
+      .catch(err => {
+        console.error('patch request not working')
+      })
+  }
+
   render() {
     return (
       <div>
-        <TodoList todos={this.state.todos}/>
+        <TodoList todos={this.state.todos} toggleCompleted={this.toggleCompleted}/>
         <form onSubmit={this.submitTodo}>
           <input onChange={this.inputChange} value={this.state.todoInput} type='text' placeholder='Type todo'/>
           <button>Submit</button>

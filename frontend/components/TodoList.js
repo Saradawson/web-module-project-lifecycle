@@ -1,13 +1,14 @@
 import React from 'react'
 
 export default class TodoList extends React.Component {
+
   render() {
     return (
-      <ul>
+      <div>
         {this.props.todos.map((todo) => (
-          <li key={todo.id}>{todo.name}</li>
+          <li onClick={this.props.toggleCompleted(todo.id)} key={todo.id}>{todo.name}{todo.completed ? <span>-complete</span> : <span></span>}</li>
         ))}
-        </ul>
+        </div>
     )
   }
 }
