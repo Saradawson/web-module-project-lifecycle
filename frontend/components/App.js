@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import TodoList from './TodoList';
+import Form from './Form';
 
 const URL = 'http://localhost:9000/api/todos'
 
@@ -21,18 +22,20 @@ export default class App extends React.Component {
   componentDidMount() {
     fetchTodos(this.state.todos)
     .then(res => {
-      this.setState({todos: res.data.data});
+      this.setState({...this.state, todos: res.data.data});
     })
+  }
+
+  inputChange = evt => {
+    const { value } = evt.target;
+    this.setState({...this.state, todoInput: value })
   }
 
   render() {
     return (
       <div>
         <TodoList todos={this.state.todos}/>
-        <form>
-          <input type='text' placeholder='Type todo'/>
-          <button>Submit</button>
-        </form>
+        <Form inputChange={this.inputChange}/>
         <button>Hide Completed</button>
       </div>
     )
