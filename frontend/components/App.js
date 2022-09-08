@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import TodoList from './TodoList';
 
 const URL = 'http://localhost:9000/api/todos'
 
@@ -27,11 +28,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <ul>
-        {this.state.todos.map((todo) => (
-          <li key={todo.id}>{todo.name}</li>
-        ))}
-        </ul>
+        <TodoList todos={this.state.todos}/>
         <form>
           <input type='text' placeholder='Type todo'/>
           <button>Submit</button>
